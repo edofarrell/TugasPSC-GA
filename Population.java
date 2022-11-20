@@ -85,7 +85,7 @@ public class Population {
 				return 0;
 			}
 		});
-
+            
 		// Return the fittest individual
 		return this.population[offset];
 	}
