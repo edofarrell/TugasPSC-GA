@@ -10,9 +10,9 @@
 public class Main {
 
     public static void main(String[] args) {
-        int populationSize = 100;
+        int populationSize = 200;
         double mutationRate = 0.001;
-        double crossoverRate = 0.95;
+        double crossoverRate = 0.8;
         int elitismCount = 2;
 
         int n = 5;
@@ -23,7 +23,7 @@ public class Main {
             {-1, -1, -1, -1, -1},
             {-1, 4, 5, -1, 2}
         };
-        int numOfGeneration = 100;
+        int numOfGeneration = 800;
 
         int chromosomeLength = n * n;
 
