@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -10,19 +12,19 @@
 public class Main {
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         int populationSize = 200;
         double mutationRate = 0.001;
         double crossoverRate = 0.8;
         int elitismCount = 2;
 
-        int n = 5;
-        int[][] board = {
-            {1, -1, 0, -1, -1},
-            {-1, -1, -1, 3, -1},
-            {-1, 5, -1, -1, 5},
-            {-1, -1, -1, -1, -1},
-            {-1, 4, 5, -1, 2}
-        };
+        int n = sc.nextInt();
+        int[][] board = new int[n][n];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                board[i][j] = sc.nextInt();
+            }
+        }
         int numOfGeneration = 800;
 
         int chromosomeLength = n * n;
