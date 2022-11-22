@@ -39,8 +39,6 @@ public class Main {
         // Keep track of current generation
         int generation = 0;
 
-        int[] temp = {0,1,0,1,0,1,1,1,0,0,1,0,0,1,1,1,0,0,0,0,1,0,1,1,1};
-        System.out.println(ga.calcFitness(new Individual(temp)));
         /**
          * Start the evolution loop
          *

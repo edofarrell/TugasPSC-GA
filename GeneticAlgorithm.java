@@ -64,12 +64,12 @@ public class GeneticAlgorithm {
      */
     public Population initPopulation(int chromosomeLength) {
         // Initialize population
-        Population population = new Population(this.populationSize, chromosomeLength);
-//        System.out.println("Initital Population:\n");
-//        for (int i = 0; i < this.populationSize; i++) {
-//            System.out.println(population.getIndividual(i).toString() + " " + population.getIndividual(i).getFitness());
-//        }
-//        System.out.println("");
+        Population population = new Population(this.populationSize, chromosomeLength, this.board);
+        System.out.println("Initital Population:\n");
+        for (int i = 0; i < this.populationSize; i++) {
+            System.out.println(population.getIndividual(i).toString() + " " + population.getIndividual(i).getFitness());
+        }
+        System.out.println("");
         return population;
     }
 
@@ -184,6 +184,13 @@ public class GeneticAlgorithm {
         }
 
         population.setPopulationFitness(populationFitness);
+        
+//        System.out.println("Next Generation:");
+//        for (int i = 0; i < this.populationSize; i++) {
+//            System.out.println(population.getIndividual(i).toString() + " " + population.getIndividual(i).getFitness());
+//        }
+//        System.out.println("");
+
     }
 
     /**
@@ -291,12 +298,6 @@ public class GeneticAlgorithm {
                 newPopulation.setIndividual(populationIndex, parent1);
             }
         }
-
-//        System.out.println("Generation next:\n");
-//        for (int i = 0; i < this.populationSize; i++) {
-//            System.out.println(newPopulation.getIndividual(i).toString() + " " + newPopulation.getIndividual(i).getFitness());
-//        }
-//        System.out.println("");
 
         return newPopulation;
     }
