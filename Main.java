@@ -1,10 +1,10 @@
+
 import java.util.Scanner;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author
@@ -13,19 +13,24 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int populationSize = 10;
+        int populationSize = 1000;
         double mutationRate = 0.001;
         double crossoverRate = 0.8;
         int elitismCount = 2;
 
-        int n = sc.nextInt();
+        int maxFitness = 0;
+//        int n = sc.nextInt();
+        int n = 5;
         int[][] board = new int[n][n];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 board[i][j] = sc.nextInt();
+                if (board[i][j] != -1) {
+                    maxFitness += board[i][j];
+                }
             }
         }
-        int numOfGeneration = 2;
+        int numOfGeneration = 1000;
 
         int chromosomeLength = n * n;
 
@@ -68,7 +73,7 @@ public class Main {
 //        }
         while (ga.isTerminationConditionMet(generation) == false) {
             // Print fittest individual from population
-            System.out.println("Best solution: " + population.getFittest(0).toString() + " " + population.getFittest(0).getFitness());
+            System.out.println("Best solution: " + population.getFittest(0).toString() + " " + population.getFittest(0).getFitness() + "/" + maxFitness);
 
 //            System.out.println("Sorted\n");
 //            for (int i = 0; i < populationSize; i++) {

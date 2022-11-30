@@ -15,7 +15,6 @@ public class GeneticAlgorithm {
     private int[][] board;
     private int n;
     private int numOfGeneration;
-    private int maxFitness;
 
     private int populationSize;
 
@@ -49,14 +48,6 @@ public class GeneticAlgorithm {
         this.mutationRate = mutationRate;
         this.crossoverRate = crossoverRate;
         this.elitismCount = elitismCount;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (board[i][j] != -1) {
-                    this.maxFitness += board[i][j];
-                }
-            }
-        }
     }
 
     /**
@@ -356,7 +347,7 @@ public class GeneticAlgorithm {
                 Individual offspring = new Individual(parent1.getChromosomeLength());
 
                 // Find second parent
-                Individual parent2 = selectParentTournament(population);
+                Individual parent2 = selectParentRank(population);
 
                 // Loop over genome
                 for (int geneIndex = 0; geneIndex < parent1.getChromosomeLength(); geneIndex++) {
