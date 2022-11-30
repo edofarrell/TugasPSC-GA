@@ -32,7 +32,7 @@ public class Population {
      * @param populationSize The number of individuals in the population
      * @param chromosomeLength The size of each individual's chromosome
      */
-    public Population(int populationSize, int chromosomeLength, int[][] board) {
+    public Population(int populationSize, int chromosomeLength) {
         // Initialize the population as an array of individuals
         this.population = new Individual[populationSize];
 
@@ -41,51 +41,9 @@ public class Population {
             // Create an individual, initializing its chromosome to the given
             // length
             Individual individual = new Individual(chromosomeLength);
-            while(!validateIndividual(individual,board)){
-                individual = new Individual(chromosomeLength);
-            }
             // Add individual to population
             this.population[individualCount] = individual;
         }
-    }
-
-    private boolean validateIndividual(Individual individual,int[][] board) {
-        int n = board.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (board[i][j] >= 0) {
-                   
-                    int[][] move = {
-                        {-1, -1},
-                        {-1, 0},
-                        {-1, 1},
-                        {0, -1},
-                        {0, 0},
-                        {0, 1},
-                        {1, -1},
-                        {1, 0},
-                        {1, 1}
-                    };
-
-                    int count = 0;
-                    for (int k = 0; k < move.length; k++) {
-                        int newI = i + move[k][0];
-                        int newJ = j + move[k][1];
-                        if (newI < n && newI >= 0 && newJ < n && newJ >= 0) {
-                            int offset = n * newI + newJ;
-                            if (individual.getGene(offset) == 1) {
-                                count++;
-                            }
-                            if (count > board[i][j]) {
-                                count = -1;
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return true;
     }
 
     /**

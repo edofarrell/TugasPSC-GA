@@ -67,7 +67,7 @@ public class GeneticAlgorithm {
      */
     public Population initPopulation(int chromosomeLength) {
         // Initialize population
-        Population population = new Population(this.populationSize, chromosomeLength, this.board);
+        Population population = new Population(this.populationSize, chromosomeLength);
         System.out.println("Initital Population:\n");
         for (int i = 0; i < this.populationSize; i++) {
             System.out.println(population.getIndividual(i).toString() + " " + population.getIndividual(i).getFitness());
