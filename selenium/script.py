@@ -1,5 +1,5 @@
 import os
-x = 1
+x = 41
 for i in range(20):
-    os.system("python3 search.py>"+"input"+str(x)+".txt")
+    os.system("python3 search.py>./test\ case/"+"input"+str(x)+".txt")
     x=x+1
