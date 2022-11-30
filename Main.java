@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int populationSize = 200;
+        int populationSize = 10;
         double mutationRate = 0.001;
         double crossoverRate = 0.8;
         int elitismCount = 2;
@@ -25,7 +25,7 @@ public class Main {
                 board[i][j] = sc.nextInt();
             }
         }
-        int numOfGeneration = 800;
+        int numOfGeneration = 2;
 
         int chromosomeLength = n * n;
 

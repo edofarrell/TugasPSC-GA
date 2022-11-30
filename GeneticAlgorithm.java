@@ -1,8 +1,11 @@
+
+import java.util.Arrays;
+import java.util.Comparator;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author
@@ -184,13 +187,12 @@ public class GeneticAlgorithm {
         }
 
         population.setPopulationFitness(populationFitness);
-        
+
 //        System.out.println("Next Generation:");
 //        for (int i = 0; i < this.populationSize; i++) {
 //            System.out.println(population.getIndividual(i).toString() + " " + population.getIndividual(i).getFitness());
 //        }
 //        System.out.println("");
-
     }
 
     /**
@@ -225,7 +227,7 @@ public class GeneticAlgorithm {
      * @param population The population to select parent from
      * @return The individual selected as a parent
      */
-    public Individual selectParent(Population population) {
+    public Individual selectParentRoulette(Population population) {
         // Get individuals
         Individual individuals[] = population.getIndividuals();
 
@@ -241,6 +243,81 @@ public class GeneticAlgorithm {
                 return individual;
             }
         }
+        return individuals[population.size() - 1];
+    }
+
+    public Individual selectParentRank(Population population) {
+        // Get individuals
+        Individual individuals[] = population.getIndividuals();
+        Arrays.sort(individuals, new Comparator<Individual>() {
+            @Override
+            public int compare(Individual o1, Individual o2) {
+                if (o1.getFitness() > o2.getFitness()) {
+                    return -1;
+                } else if (o1.getFitness() < o2.getFitness()) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+
+        double totalRank = (individuals.length / 2.0) * (1 + individuals.length);
+        double rank[] = new double[individuals.length];
+        for (int i = individuals.length - 1; i >= 0; i--) {
+            rank[i] = 1.0 * (individuals.length - i) / totalRank;
+        }
+
+        // Spin roulette wheel
+        double rouletteWheelPosition = Math.random();
+
+        // Find parent
+        double spinWheel = 0;
+        for (int i = 0; i < rank.length; i++) {
+            spinWheel += rank[i];
+            if (spinWheel >= rouletteWheelPosition) {
+                return individuals[i];
+            }
+        }
+
+        return individuals[population.size() - 1];
+    }
+
+    public Individual selectParentTournament(Population population) {
+        // Get individuals
+        Individual individuals[] = population.getIndividuals();
+        Arrays.sort(individuals, new Comparator<Individual>() {
+            @Override
+            public int compare(Individual o1, Individual o2) {
+                if (o1.getFitness() > o2.getFitness()) {
+                    return -1;
+                } else if (o1.getFitness() < o2.getFitness()) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+
+        int memberPerGroup = 5;
+        double newPopulationFitness = 0;
+        
+        Individual newIndividuals[] = new Individual[individuals.length / memberPerGroup];
+        for (int i = 0; i < newIndividuals.length; i++) {
+            newIndividuals[i] = individuals[i*memberPerGroup];
+            newPopulationFitness += newIndividuals[i].getFitness();
+        }
+
+        // Spin roulette wheel
+        double rouletteWheelPosition = Math.random() * newPopulationFitness;
+
+        // Find parent
+        double spinWheel = 0;
+        for (Individual individual : newIndividuals) {
+            spinWheel += individual.getFitness();
+            if (spinWheel >= rouletteWheelPosition) {
+                return individual;
+            }
+        }
+
         return individuals[population.size() - 1];
     }
 
@@ -279,7 +356,7 @@ public class GeneticAlgorithm {
                 Individual offspring = new Individual(parent1.getChromosomeLength());
 
                 // Find second parent
-                Individual parent2 = selectParent(population);
+                Individual parent2 = selectParentTournament(population);
 
                 // Loop over genome
                 for (int geneIndex = 0; geneIndex < parent1.getChromosomeLength(); geneIndex++) {
