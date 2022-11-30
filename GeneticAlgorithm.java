@@ -299,10 +299,10 @@ public class GeneticAlgorithm {
 
         int memberPerGroup = 5;
         double newPopulationFitness = 0;
-        
+
         Individual newIndividuals[] = new Individual[individuals.length / memberPerGroup];
         for (int i = 0; i < newIndividuals.length; i++) {
-            newIndividuals[i] = individuals[i*memberPerGroup];
+            newIndividuals[i] = individuals[i * memberPerGroup];
             newPopulationFitness += newIndividuals[i].getFitness();
         }
 
@@ -365,6 +365,112 @@ public class GeneticAlgorithm {
                         offspring.setGene(geneIndex, parent1.getGene(geneIndex));
                     } else {
                         offspring.setGene(geneIndex, parent2.getGene(geneIndex));
+                    }
+                }
+
+                // Add offspring to new population
+                newPopulation.setIndividual(populationIndex, offspring);
+            } else {
+                // Add individual to new population without applying crossover
+                newPopulation.setIndividual(populationIndex, parent1);
+            }
+        }
+
+        return newPopulation;
+    }
+
+    public Population crossoverPopulationOnePoint(Population population) {
+        // Create new population
+        Population newPopulation = new Population(population.size());
+
+        // Loop over current population by fitness
+        for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {
+            Individual parent1 = population.getFittest(populationIndex);
+
+            // Apply crossover to this individual?
+            if (this.crossoverRate > Math.random() && populationIndex >= this.elitismCount) {
+                // Initialize offspring
+                Individual offspring = new Individual(parent1.getChromosomeLength());
+
+                // Find second parent
+                Individual parent2 = selectParentTournament(population);
+
+                // Loop over genome
+                if (0.5 > Math.random()) {
+                    for (int i = 0; i < parent1.getChromosomeLength() / 2; i++) {
+                        offspring.setGene(i, parent1.getGene(i));
+                    }
+                } else {
+                    for (int i = 0; i < parent1.getChromosomeLength() / 2; i++) {
+                        offspring.setGene(i, parent2.getGene(i));
+                    }
+                }
+
+                if (0.5 > Math.random()) {
+                    for (int i = parent1.getChromosomeLength() / 2; i < parent1.getChromosomeLength(); i++) {
+                        offspring.setGene(i, parent1.getGene(i));
+                    }
+                } else {
+                    for (int i = parent1.getChromosomeLength() / 2; i < parent1.getChromosomeLength(); i++) {
+                        offspring.setGene(i, parent2.getGene(i));
+                    }
+                }
+
+                // Add offspring to new population
+                newPopulation.setIndividual(populationIndex, offspring);
+            } else {
+                // Add individual to new population without applying crossover
+                newPopulation.setIndividual(populationIndex, parent1);
+            }
+        }
+
+        return newPopulation;
+    }
+
+    public Population crossoverPopulationTwoPoint(Population population) {
+        // Create new population
+        Population newPopulation = new Population(population.size());
+
+        // Loop over current population by fitness
+        for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {
+            Individual parent1 = population.getFittest(populationIndex);
+
+            // Apply crossover to this individual?
+            if (this.crossoverRate > Math.random() && populationIndex >= this.elitismCount) {
+                // Initialize offspring
+                Individual offspring = new Individual(parent1.getChromosomeLength());
+
+                // Find second parent
+                Individual parent2 = selectParentTournament(population);
+
+                // Loop over genome
+                if (0.5 > Math.random()) {
+                    for (int i = 0; i < parent1.getChromosomeLength() / 3; i++) {
+                        offspring.setGene(i, parent1.getGene(i));
+                    }
+                } else {
+                    for (int i = 0; i < parent1.getChromosomeLength() / 3; i++) {
+                        offspring.setGene(i, parent2.getGene(i));
+                    }
+                }
+
+                if (0.5 > Math.random()) {
+                    for (int i = parent1.getChromosomeLength() / 3; i < 2 * parent1.getChromosomeLength() / 3; i++) {
+                        offspring.setGene(i, parent1.getGene(i));
+                    }
+                } else {
+                    for (int i = parent1.getChromosomeLength() / 3; i < 2 * parent1.getChromosomeLength() / 3; i++) {
+                        offspring.setGene(i, parent2.getGene(i));
+                    }
+                }
+
+                if (0.5 > Math.random()) {
+                    for (int i = 2 * parent1.getChromosomeLength() / 3; i < parent1.getChromosomeLength(); i++) {
+                        offspring.setGene(i, parent1.getGene(i));
+                    }
+                } else {
+                    for (int i = 2 * parent1.getChromosomeLength() / 3; i < parent1.getChromosomeLength(); i++) {
+                        offspring.setGene(i, parent2.getGene(i));
                     }
                 }
 
