@@ -21,6 +21,7 @@ public class Main {
         int maxFitness = 0;
 //        int n = sc.nextInt();
         int n = 5;
+        int buang = sc.nextInt();
         int[][] board = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -30,7 +31,7 @@ public class Main {
                 }
             }
         }
-        int numOfGeneration = 1000;
+        int numOfGeneration = 2200;
 
         int chromosomeLength = n * n;
 
@@ -81,7 +82,7 @@ public class Main {
 //            }
 //            System.out.println("");
             // Apply crossover
-            population = ga.crossoverPopulation(population);
+            population = ga.crossoverPopulationTwoPoint(population);
 
             // Apply mutation
             population = ga.mutatePopulation(population);
