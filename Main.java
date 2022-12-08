@@ -8,9 +8,6 @@ import java.util.Scanner;
  *      Keannen Renaldo Halim - 6182001007 
  *      Neil Christopher - 6182001010 
  *      Edo Farrell Haryanto - 6182001025
- *
- * Sumber:
- *      https://github.com/Apress/genetic-algorithms-in-java-basics/tree/master/GA%20in%20Java/src/chapter2
  */
 
 public class Main {
