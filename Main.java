@@ -1,104 +1,63 @@
 
 import java.util.Scanner;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 /**
  *
- * @author
+ * @author 
+ *  Kelompok 15: 
+ *      Keannen Renaldo Halim - 6182001007 
+ *      Neil Christopher - 6182001010 
+ *      Edo Farrell Haryanto - 6182001025
+ *
+ * Sumber:
+ *      https://github.com/Apress/genetic-algorithms-in-java-basics/tree/master/GA%20in%20Java/src/chapter2
  */
+
 public class Main {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int populationSize = 1000;
-        double mutationRate = 0.001;
-        double crossoverRate = 0.8;
-        int elitismCount = 2;
+        int populationSize = 1000;      //besar populasi
+        double mutationRate = 0.001;    //probabilitas terjadi mutasi
+        double crossoverRate = 0.8;     //probabilitas crossover berhasil
+        int elitismCount = 2;           //jumlah individu yang akan dipilih secara elitism
+        int numOfGeneration = 2200;     //banyak generasi
 
-        int maxFitness = 0;
+        Scanner sc = new Scanner(System.in);    //objek scanner
 //        int n = sc.nextInt();
-        int n = 5;
-        int buang = sc.nextInt();
-        int[][] board = new int[n][n];
+        int n = 5;                              //besar papan (nxn)
+        int chromosomeLength = n * n;           //panjang kromosom = besar papan
+
+        int buang = sc.nextInt();               //varibel untuk membuang 1 angka pertma dari input karena input kelebihan 1 angka yang tidak digunakan
+
+        int maxFitness = 0;                     //variabel untuk menghitung  nilai fitness maximum yang bisa didapatkan
+        int[][] board = new int[n][n];          //array 2d untuk menyimpan papan permainan (setiap cell diisi dengan angka, jika cell tersebut kosong maka diisi dengan -1)
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                board[i][j] = sc.nextInt();
+                board[i][j] = sc.nextInt();     //mengisi papan permainan
                 if (board[i][j] != -1) {
-                    maxFitness += board[i][j];
+                    maxFitness += board[i][j];  //menghitung nilai fitness maksimum
                 }
             }
         }
-        int numOfGeneration = 2200;
 
-        int chromosomeLength = n * n;
-
-        // Create GA object
+        // Membuat object GeneticAlgorithm
         GeneticAlgorithm ga = new GeneticAlgorithm(board, numOfGeneration, populationSize, mutationRate, crossoverRate, elitismCount);
+        Population population = ga.initPopulation(chromosomeLength);    //inisialisasi populasi
+        ga.evalPopulation(population);  //evaluasi populasi
+        int generation = 0;             //varibel untuk menyimpan nomor generasi saat ini
 
-        // Initialize population
-        Population population = ga.initPopulation(chromosomeLength);
-
-        // Evaluate population
-        ga.evalPopulation(population);
-
-        // Keep track of current generation
-        int generation = 0;
-
-        /**
-         * Start the evolution loop
-         *
-         * Every genetic algorithm problem has different criteria for finishing.
-         * In this case, we know what a perfect solution looks like (we don't
-         * always!), so our isTerminationConditionMet method is very
-         * straightforward: if there's a member of the population whose
-         * chromosome is all ones, we're done!
-         */
-//        while (ga.isTerminationConditionMet(population) == false) {
-//            // Print fittest individual from population
-//            System.out.println("Best solution: " + population.getFittest(0).toString());
-//
-//            // Apply crossover
-//            population = ga.crossoverPopulation(population);
-//
-//            // Apply mutation
-//            population = ga.mutatePopulation(population);
-//
-//            // Evaluate population
-//            ga.evalPopulation(population);
-//
-//            // Increment the current generation
-//            generation++;
-//        }
+        //loop selama syarat terminasi belum terpenuhi (jumlah generasi)
         while (ga.isTerminationConditionMet(generation) == false) {
-            // Print fittest individual from population
+            // print individual terbaik dari populasi
             System.out.println("Best solution: " + population.getFittest(0).toString() + " " + population.getFittest(0).getFitness() + "/" + maxFitness);
 
-//            System.out.println("Sorted\n");
-//            for (int i = 0; i < populationSize; i++) {
-//                System.out.println(population.getIndividual(i).toString() + " " + population.getIndividual(i).getFitness());
-//            }
-//            System.out.println("");
-            // Apply crossover
-            population = ga.crossoverPopulationTwoPoint(population);
-
-            // Apply mutation
-            population = ga.mutatePopulation(population);
-
-            // Evaluate population
-            ga.evalPopulation(population);
-
-            // Increment the current generation
-            generation++;
+            population = ga.crossoverPopulationTwoPoint(population);    //crossover populasi
+            population = ga.mutatePopulation(population);   //mutasi populasi
+            ga.evalPopulation(population);                  //evaluasi populasi
+            generation++;   //lanjut ke generasi berikutnya
         }
 
-        /**
-         * We're out of the loop now, which means we have a perfect solution on
-         * our hands. Let's print it out to confirm that it is actually all
-         * ones, as promised.
-         */
+        //print hasil
         System.out.println("Found solution in " + generation + " generations");
         System.out.println("Best solution: " + population.getFittest(0).toString());
     }
