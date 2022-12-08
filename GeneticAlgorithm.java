@@ -2,47 +2,30 @@
 import java.util.Arrays;
 import java.util.Comparator;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 /**
- *
- * @author
+ * 
+ * @author 
+ *  Kelompok 15: 
+ *      Keannen Renaldo Halim - 6182001007 
+ *      Neil Christopher - 6182001010 
+ *      Edo Farrell Haryanto - 6182001025
  */
+
 public class GeneticAlgorithm {
 
-    private int[][] board;
-    private int n;
-    private int numOfGeneration;
+    private int n;                  //ukuran papan (nxn)
+    private int[][] board;          //array 2d unutk menyimpan papan permainan
+    
+    private int numOfGeneration;    //banyak generasi
+    private int populationSize;     //besar populasi
+    private double mutationRate;    //probabilitas terjadi mutasi
+    private double crossoverRate;   //probabilitas crossover berhasil
+    private int elitismCount;       //jumlah individu yang akan dipilih secara elitism
 
-    private int populationSize;
-
-    /**
-     * Mutation rate is the fractional probability than an individual gene will
-     * mutate randomly in a given generation. The range is 0.0-1.0, but is
-     * generally small (on the order of 0.1 or less).
-     */
-    private double mutationRate;
-
-    /**
-     * Crossover rate is the fractional probability that two individuals will
-     * "mate" with each other, sharing genetic information, and creating
-     * offspring with traits of each of the parents. Like mutation rate the
-     * rance is 0.0-1.0 but small.
-     */
-    private double crossoverRate;
-
-    /**
-     * Elitism is the concept that the strongest members of the population
-     * should be preserved from generation to generation. If an individual is
-     * one of the elite, it will not be mutated or crossover.
-     */
-    private int elitismCount;
-
+    //constructor
     public GeneticAlgorithm(int[][] board, int numOfGeneration, int populationSize, double mutationRate, double crossoverRate, int elitismCount) {
-        this.board = board;
         this.n = board.length;
+        this.board = board;
         this.numOfGeneration = numOfGeneration;
         this.populationSize = populationSize;
         this.mutationRate = mutationRate;
@@ -50,20 +33,10 @@ public class GeneticAlgorithm {
         this.elitismCount = elitismCount;
     }
 
-    /**
-     * Initialize population
-     *
-     * @param chromosomeLength The length of the individuals chromosome
-     * @return population The initial population generated
-     */
+    //method untuk inisialisasi populasi
     public Population initPopulation(int chromosomeLength) {
-        // Initialize population
+        //inisialisasi populasi sesuai ukuran populasi dan panjang kromosom yang ditentukan
         Population population = new Population(this.populationSize, chromosomeLength);
-        System.out.println("Initital Population:\n");
-        for (int i = 0; i < this.populationSize; i++) {
-            System.out.println(population.getIndividual(i).toString() + " " + population.getIndividual(i).getFitness());
-        }
-        System.out.println("");
         return population;
     }
 

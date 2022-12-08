@@ -13,11 +13,11 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        int numOfGeneration = 2200;     //banyak generasi
         int populationSize = 1000;      //besar populasi
         double mutationRate = 0.001;    //probabilitas terjadi mutasi
         double crossoverRate = 0.8;     //probabilitas crossover berhasil
         int elitismCount = 2;           //jumlah individu yang akan dipilih secara elitism
-        int numOfGeneration = 2200;     //banyak generasi
 
         Scanner sc = new Scanner(System.in);    //objek scanner
 //        int n = sc.nextInt();

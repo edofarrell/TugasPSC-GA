@@ -1,115 +1,65 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
 /**
  *
  * @author
+ *  Kelompok 15:
+ *      Keannen Renaldo Halim - 6182001007
+ *      Neil Christopher - 6182001010
+ *      Edo Farrell Haryanto - 6182001025
  */
 public class Individual {
 
-    private int[] chromosome;
-    private double fitness = -1;
+    /*
+        Papan berukuran nxn dimodelkan kedalam chromosome dengan bentuk array 1d dengan panjang nxn.
+        Di mana cell di papan pada baris i dan kolom j ditempatkan pada array index ke-(i*n+j).
+        
+        Setiap gene menandakan apakah kotak yang bersangkutan di papan diisi atau tidak.
+    
+        Alel terdiri dari 0/1
+        0 menandakan kotak yang bersangkutan tidak diisi.
+        1 menandakan kotak yang bersangkutan diisi.
+    */
+    
+    private int[] chromosome;       //chromosome dalam bentuk array 1d
+    private double fitness = -1;    //fitness individual
 
-    /**
-     * Initializes individual with specific chromosome
-     *
-     * @param chromosome The chromosome to give individual
-     */
+    //constructor dengan input chromosome yang sudah jadi
     public Individual(int[] chromosome) {
-        // Create individual chromosome
-        this.chromosome = chromosome;
+        this.chromosome = chromosome;   //copy chromosome dari input
     }
 
-    /**
-     * Initializes random individual.
-     *
-     * This constructor assumes that the chromosome is made entirely of 0s and
-     * 1s, which may not always be the case, so make sure to modify as
-     * necessary. This constructor also assumes that a "random" chromosome means
-     * simply picking random zeroes and ones, which also may not be the case
-     * (for instance, in a traveling salesman problem, this would be an invalid
-     * solution).
-     *
-     * @param chromosomeLength The length of the individuals chromosome
-     */
+    //constructor yang mengenerate chromosome baru secara random dengan panjang tertentu
     public Individual(int chromosomeLength) {
-
-        this.chromosome = new int[chromosomeLength];
-        for (int gene = 0; gene < chromosomeLength; gene++) {
-            if (0.5 < Math.random()) {
-                this.setGene(gene, 1);
+        this.chromosome = new int[chromosomeLength];            //inisialisasi chromosome (array)
+        for (int gene = 0; gene < chromosomeLength; gene++) {   //loop untuk mengisi setiap gene dalam chromosome
+            if (0.5 < Math.random()) {  //random isi gene 0/1
+                this.setGene(gene, 1);  //isi gene 1
             } else {
-                this.setGene(gene, 0);
+                this.setGene(gene, 0);  //isi gene 0
             }
-
         }
-
     }
 
-    /**
-     * Gets individual's chromosome
-     *
-     * @return The individual's chromosome
-     */
-    public int[] getChromosome() {
-        return this.chromosome;
-    }
+    //method getter chromosome
+    public int[] getChromosome() { return this.chromosome; }
 
-    /**
-     * Gets individual's chromosome length
-     *
-     * @return The individual's chromosome length
-     */
-    public int getChromosomeLength() {
-        return this.chromosome.length;
-    }
+    //method getter panjang chromosome
+    public int getChromosomeLength() { return this.chromosome.length; }
 
-    /**
-     * Set gene at offset
-     *
-     * @param gene
-     * @param offset
-     * @return gene
-     */
-    public void setGene(int offset, int gene) {
-        this.chromosome[offset] = gene;
-    }
+    //method setter gene chromosome pada index tertentu
+    public void setGene(int offset, int gene) { this.chromosome[offset] = gene; }
 
-    /**
-     * Get gene at offset
-     *
-     * @param offset
-     * @return gene
-     */
-    public int getGene(int offset) {
-        return this.chromosome[offset];
-    }
+    //method getter gene chromose pada index tertentu
+    public int getGene(int offset) { return this.chromosome[offset]; }
 
-    /**
-     * Store individual's fitness
-     *
-     * @param fitness The individuals fitness
-     */
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
-    }
+    //method setter fitness individual
+    public void setFitness(double fitness) { this.fitness = fitness; }
 
-    /**
-     * Gets individual's fitness
-     *
-     * @return The individual's fitness
-     */
-    public double getFitness() {
-        return this.fitness;
-    }
+    //method getter fitness individual
+    public double getFitness() { return this.fitness; }
 
-    /**
-     * Display the chromosome as a string.
-     *
-     * @return string representation of the chromosome
-     */
+    //method untuk mengubah indivual menjadi bentuk string
+    @Override
     public String toString() {
         String output = "";
         for (int gene = 0; gene < this.chromosome.length; gene++) {

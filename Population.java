@@ -3,14 +3,15 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 /**
  *
- * @author
+ * @author 
+ *  Kelompok 15: 
+ *      Keannen Renaldo Halim - 6182001007 
+ *      Neil Christopher - 6182001010 
+ *      Edo Farrell Haryanto - 6182001025
  */
+
 public class Population {
 
     private Individual population[];
