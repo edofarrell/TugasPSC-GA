@@ -13,8 +13,12 @@ import java.util.Comparator;
 
 public class GeneticAlgorithm {
 
-    private int n;                  //ukuran papan (nxn)
-    private int[][] board;          //array 2d unutk menyimpan papan permainan
+    private int n; //ukuran papan (nxn)
+    /*
+        array 2d untuk menyimpan papan permainan beserta angka pada setiap kotak.
+        Jika kotak kosong maka akan diisi dengan -1.
+    */
+    private int[][] board;          
     
     private int numOfGeneration;    //banyak generasi
     private int populationSize;     //besar populasi
@@ -40,183 +44,114 @@ public class GeneticAlgorithm {
         return population;
     }
 
-    /**
-     * Calculate fitness for an individual.
-     *
-     * In this case, the fitness score is very simple: it's the number of ones
-     * in the chromosome. Don't forget that this method, and this whole
-     * GeneticAlgorithm class, is meant to solve the problem in the "AllOnesGA"
-     * class and example. For different problems, you'll need to create a
-     * different version of this method to appropriately calculate the fitness
-     * of an individual.
-     *
-     * @param individual the individual to evaluate
-     * @return double The fitness value for individual
-     */
+    /*
+        Fitness sebuah individual dihitung dengan cara menjumlahkan setiap nilai dari:
+            Untuk setiap kotak pada papan permainan lihat semua kotak di sekelilingnya 
+            termasuk diagonal dan dirinya sendiri, kemudian hitung ada berapa kotak yang diisi. 
+    
+            Jika jumlahnya melebihi nilai yang berada pada kotak tersebut maka individual 
+            tersebut tidak valid. Jadi fitnessnya dibuat 0.
+    */
+    //method menghitung fitness suatu individual
     public double calcFitness(Individual individual) {
+        double fitness = 0; //fitness awal-awal diinisialisasi 0
 
-//		// Track number of correct genes
-//		int correctGenes = 0;
-//
-//		// Loop over individual's genes
-//		for (int geneIndex = 0; geneIndex < individual.getChromosomeLength(); geneIndex++) {
-//			// Add one fitness point for each "1" found
-//			if (individual.getGene(geneIndex) == 1) {
-//				correctGenes += 1;
-//			}
-//		}
-//
-//		// Calculate fitness
-//		double fitness = (double) correctGenes / individual.getChromosomeLength();
-//
-//		// Store fitness
-//		individual.setFitness(fitness);
-//
-//		return fitness;
-        double fitness = 0;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (board[i][j] >= 0) {
-                    int correctGenes = countNeighbour(i, j, board[i][j], individual);
-                    if (correctGenes != -1) {
-                        fitness += correctGenes;
-                    } else {
-                        fitness = 0;
-                        individual.setFitness(fitness);
-                        return fitness;
+        for (int i = 0; i < n; i++) {       //loop untuk setiap bari pada papan
+            for (int j = 0; j < n; j++) {   //loop untuk setiap kolom pada papan
+                if (board[i][j] >= 0) {     //jika kotak memiliki nilai 
+                    int correctGenes = countNeighbour(i, j, individual);   //hitung kotak yang diisi di sekelilingnya
+                    if (correctGenes <= board[i][j]) {  //jika jumlah masih valid
+                        fitness += correctGenes;        //tambahkan ke fitness
+                    } else {                            //jika jumlah melebihi nilai kotak yang bersangkutan
+                        fitness = 0;                    //set fitness menjadi 0
+                        individual.setFitness(fitness); //set fitness individual yang bersangkutan
+                        return fitness;                 //return fitness
                     }
                 }
             }
         }
 
-        individual.setFitness(fitness);
-        return fitness;
+        individual.setFitness(fitness); //set fitness individual yang bersangkutan
+        return fitness;                 //return fitness
     }
 
-    private int countNeighbour(int i, int j, int target, Individual individual) {
-        int[][] move = {
-            {-1, -1},
-            {-1, 0},
-            {-1, 1},
-            {0, -1},
-            {0, 0},
-            {0, 1},
-            {1, -1},
-            {1, 0},
-            {1, 1}
+    //method untuk menghitung banyak kotak yang diisi di sekeliling satu kotak
+    private int countNeighbour(int i, int j, Individual individual) {
+        int[][] move = {    //arah pengecekan kotak
+            {-1, -1},       //kiri atas
+            {-1, 0},        //atas
+            {-1, 1},        //kanan atas
+            {0, -1},        //kiri
+            {0, 0},         //kotaknya sendiri
+            {0, 1},         //kanan
+            {1, -1},        //kiri bawah
+            {1, 0},         //bawah
+            {1, 1}          //kanan bawah
         };
 
-        int count = 0;
-        for (int k = 0; k < move.length; k++) {
-            int newI = i + move[k][0];
-            int newJ = j + move[k][1];
-            if (validate(newI, newJ)) {
-                int offset = n * newI + newJ;
-                if (individual.getGene(offset) == 1) {
-                    count++;
-                }
-                if (count > target) {
-                    count = -1;
-                    break;
+        int count = 0;      //variabel untuk menghitung jumlah kotak yang diisi
+        for (int k = 0; k < move.length; k++) { //loop untuk memeriksa semua kotak di sekeliling
+            int newI = i + move[k][0];      //baris kotak yang inign diperiksa
+            int newJ = j + move[k][1];      //kolom kotak yang ingin diperiksa
+            if (validate(newI, newJ)) {     //cek apakah baris dan kolom masih berada dalam papan
+                int offset = n * newI + newJ;   //index pada chromosome
+                if (individual.getGene(offset) == 1) {  //jika kotak diisi
+                    count++;                            //maka tambahkan count
                 }
             }
         }
 
-        return count;
+        return count;   //return hasil
     }
 
-    private boolean validate(int i, int j) {
-        return i < n && i >= 0 && j < n && j >= 0;
-    }
+    //method untuk memeriksa apakah kotak pada baris ke-i, kolom ke-j masih valid (berada dalam papan)
+    private boolean validate(int i, int j) { return i < n && i >= 0 && j < n && j >= 0; }
 
-    /**
-     * Evaluate the whole population
-     *
-     * Essentially, loop over the individuals in the population, calculate the
-     * fitness for each, and then calculate the entire population's fitness. The
-     * population's fitness may or may not be important, but what is important
-     * here is making sure that each individual gets evaluated.
-     *
-     * @param population the population to evaluate
-     */
+    /*  method untuk menghitung fitness dari populasi dan fitness setiap individual
+        fitness populasi dihitung dengan cara menjumlahkan fitness dari semua individualnya  */
     public void evalPopulation(Population population) {
-        double populationFitness = 0;
+        double populationFitness = 0;   //fitness population diinisialisai dengan 0
 
-        // Loop over population evaluating individuals and suming population
-        // fitness
+        //loop untuk menghitung fitness dari setaip individual pada populasi
         for (Individual individual : population.getIndividuals()) {
-            populationFitness += calcFitness(individual);
-            // populationFitness = Math.max(populationFitness, calcFitness(individual));
+            populationFitness += calcFitness(individual);   //hitung fitness dari individual dan tambahkan ke fitness populasi
         }
 
-        population.setPopulationFitness(populationFitness);
-
-//        System.out.println("Next Generation:");
-//        for (int i = 0; i < this.populationSize; i++) {
-//            System.out.println(population.getIndividual(i).toString() + " " + population.getIndividual(i).getFitness());
-//        }
-//        System.out.println("");
+        population.setPopulationFitness(populationFitness); //set fitness population
     }
 
-    /**
-     * Check if population has met termination condition
-     *
-     * For this simple problem, we know what a perfect solution looks like, so
-     * we can simply stop evolving once we've reached a fitness of one.
-     *
-     * @param population
-     * @return boolean True if termination condition met, otherwise, false
-     */
-//    public boolean isTerminationConditionMet(Population population) {
-//        for (Individual individual : population.getIndividuals()) {
-//            if (individual.getFitness() == 1) {
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
+    /*  method untuk memeriksa apakah kondisi berhenti algoritma sudah terpenuhi atau belum.
+        pada algoritma ini menggunakan banyak generasi sebagai kondisi berhenti.  */
     public boolean isTerminationConditionMet(int generation) {
-        if (generation < this.numOfGeneration) {
-            return false;
-        } else {
-            return true;
-        }
+        return generation >= this.numOfGeneration; //jika sudah mencapai target jumlah generasi return true
     }
 
-    /**
-     * Select parent for crossover
-     *
-     * @param population The population to select parent from
-     * @return The individual selected as a parent
-     */
+    //method parent selection secara roulette wheel selection
     public Individual selectParentRoulette(Population population) {
-        // Get individuals
-        Individual individuals[] = population.getIndividuals();
+        Individual individuals[] = population.getIndividuals(); //ambil semua individual dari populasi
 
-        // Spin roulette wheel
-        double populationFitness = population.getPopulationFitness();
-        double rouletteWheelPosition = Math.random() * populationFitness;
+        double populationFitness = population.getPopulationFitness();       //ambil fitness populasi
+        double rouletteWheelPosition = Math.random() * populationFitness;   //putar roulette wheel
 
-        // Find parent
-        double spinWheel = 0;
-        for (Individual individual : individuals) {
-            spinWheel += individual.getFitness();
-            if (spinWheel >= rouletteWheelPosition) {
-                return individual;
+        //cari parent yang terpilih
+        double currArea = 0;   //batas area individu saat ini
+        for (Individual individual : individuals) {    //loop untuk setiap individual
+            currArea += individual.getFitness();       //area individu di roulette wheel
+            if (currArea >= rouletteWheelPosition) {   //jika hasil putaran berada dalam area individu
+                return individual;                     //return individu yang bersangkutan
             }
         }
-        return individuals[population.size() - 1];
+        return individuals[population.size() - 1];      //jika tidak ditemukan dalam loop, artinya yang terpilih adalah individu terakhir
     }
 
+    //method parent selection secara rank selection
     public Individual selectParentRank(Population population) {
-        // Get individuals
-        Individual individuals[] = population.getIndividuals();
-        Arrays.sort(individuals, new Comparator<Individual>() {
+        Individual individuals[] = population.getIndividuals(); //ambil semua individual dari populasi
+        
+        Arrays.sort(individuals, new Comparator<Individual>() { //urutkan individual berdasarkan fitness dari besar ke kecil
             @Override
-            public int compare(Individual o1, Individual o2) {
-                if (o1.getFitness() > o2.getFitness()) {
+            public int compare(Individual o1, Individual o2) {  //method compare
+                if (o1.getFitness() > o2.getFitness()) {        //dari besar ke kecil
                     return -1;
                 } else if (o1.getFitness() < o2.getFitness()) {
                     return 1;
@@ -225,34 +160,40 @@ public class GeneticAlgorithm {
             }
         });
 
+        /* 
+            hitung rank total dari semua individu. 
+            menggunakan rumus baris dan deret: n/2 * (1+n)
+            contoh: jika ada 4 individu maka hasilnya adalah 1+2+3+4.
+        */
         double totalRank = (individuals.length / 2.0) * (1 + individuals.length);
-        double rank[] = new double[individuals.length];
-        for (int i = individuals.length - 1; i >= 0; i--) {
-            rank[i] = 1.0 * (individuals.length - i) / totalRank;
+        
+        double area[] = new double[individuals.length];     //array untuk menyimpan area setiap individu di roulette wheel berdasarkan rank
+        for (int i = individuals.length - 1; i >= 0; i--) { //loop untuk menghitung area setiap inidividu
+            area[i] = 1.0 * (individuals.length - i) / totalRank;
         }
 
-        // Spin roulette wheel
-        double rouletteWheelPosition = Math.random();
+        double rouletteWheelPosition = Math.random();   //putar roulette wheel
 
-        // Find parent
-        double spinWheel = 0;
-        for (int i = 0; i < rank.length; i++) {
-            spinWheel += rank[i];
-            if (spinWheel >= rouletteWheelPosition) {
-                return individuals[i];
+        //cari parent yang terpilih
+        double currArea = 0;    //batas area individu saat ini
+        for (int i = 0; i < area.length; i++) {     //loop untuk setiap individual
+            currArea += area[i];                    //area individu di roulette wheel
+            if (currArea >= rouletteWheelPosition) {//jika hasil putaran berada dalam area individu
+                return individuals[i];              //return individu yang bersangkutan
             }
         }
 
-        return individuals[population.size() - 1];
+        return individuals[population.size() - 1];  //jika tidak ditemukan dalam loop, artinya yang terpilih adalah individu terakhir
     }
 
+    //method parent selection secara tournament
     public Individual selectParentTournament(Population population) {
-        // Get individuals
-        Individual individuals[] = population.getIndividuals();
-        Arrays.sort(individuals, new Comparator<Individual>() {
+        Individual individuals[] = population.getIndividuals(); //ambil semua individual dari populasi
+        
+        Arrays.sort(individuals, new Comparator<Individual>() { //urutkan individual berdasarkan fitness dari besar ke kecil
             @Override
-            public int compare(Individual o1, Individual o2) {
-                if (o1.getFitness() > o2.getFitness()) {
+            public int compare(Individual o1, Individual o2) {  //method compare
+                if (o1.getFitness() > o2.getFitness()) {        //dari besar ke kecil
                     return -1;
                 } else if (o1.getFitness() < o2.getFitness()) {
                     return 1;
@@ -261,56 +202,36 @@ public class GeneticAlgorithm {
             }
         });
 
-        int memberPerGroup = 5;
-        double newPopulationFitness = 0;
+        int memberPerGroup = 5;             //tentukan banyak member per group yang ingin ditandingkan
+        double newPopulationFitness = 0;    //fitness populasi yang baru setelah dilakukan pertandingan
 
-        Individual newIndividuals[] = new Individual[individuals.length / memberPerGroup];
-        for (int i = 0; i < newIndividuals.length; i++) {
-            newIndividuals[i] = individuals[i * memberPerGroup];
-            newPopulationFitness += newIndividuals[i].getFitness();
+        //array untuk menyimpan individual yang memenangkan pertandingan
+        Individual newIndividuals[] = new Individual[individuals.length / memberPerGroup]; 
+        for (int i = 0; i < newIndividuals.length; i++) {   //loop sebanyak individual yang menang
+            //ambil individual yang menang (dapat dilakukan seperti ini karena sudah diurutkan)
+            newIndividuals[i] = individuals[i * memberPerGroup];    
+            newPopulationFitness += newIndividuals[i].getFitness(); //tambahkan fitness inidividual yang menang ke fitness populasi
         }
 
-        // Spin roulette wheel
-        double rouletteWheelPosition = Math.random() * newPopulationFitness;
+        double rouletteWheelPosition = Math.random() * newPopulationFitness;    //putar roulette wheel
 
-        // Find parent
-        double spinWheel = 0;
-        for (Individual individual : newIndividuals) {
-            spinWheel += individual.getFitness();
-            if (spinWheel >= rouletteWheelPosition) {
-                return individual;
+        //cari parent yang terpilih
+        double currArea = 0;    //batas area individu saat ini
+        for (Individual individual : newIndividuals) {  //loop untuk setiap individual
+            currArea += individual.getFitness();        //area individu di roulette wheel
+            if (currArea >= rouletteWheelPosition) {    //jika hasil putaran berada dalam area individu
+                return individual;                      //return individu yang bersangkutan
             }
         }
 
-        return individuals[population.size() - 1];
+        return individuals[population.size() - 1];  //jika tidak ditemukan dalam loop, artinya yang terpilih adalah individu terakhir
     }
 
-    /**
-     * Apply crossover to population
-     *
-     * Crossover, more colloquially considered "mating", takes the population
-     * and blends individuals to create new offspring. It is hoped that when two
-     * individuals crossover that their offspring will have the strongest
-     * qualities of each of the parents. Of course, it's possible that an
-     * offspring will end up with the weakest qualities of each parent.
-     *
-     * This method considers both the GeneticAlgorithm instance's crossoverRate
-     * and the elitismCount.
-     *
-     * The type of crossover we perform depends on the problem domain. We don't
-     * want to create invalid solutions with crossover, so this method will need
-     * to be changed for different types of problems.
-     *
-     * This particular crossover method selects random genes from each parent.
-     *
-     * @param population The population to apply crossover to
-     * @return The new population
-     */
-    public Population crossoverPopulation(Population population) {
-        // Create new population
-        Population newPopulation = new Population(population.size());
+    //method crossover random
+    public Population crossoverPopulationRandom(Population population) {
+        Population newPopulation = new Population(population.size());   //inisialisasi populasi baru
 
-        // Loop over current population by fitness
+        //loop untuk 
         for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {
             Individual parent1 = population.getFittest(populationIndex);
 
@@ -343,6 +264,7 @@ public class GeneticAlgorithm {
         return newPopulation;
     }
 
+    //method crossover one-point
     public Population crossoverPopulationOnePoint(Population population) {
         // Create new population
         Population newPopulation = new Population(population.size());
@@ -391,6 +313,7 @@ public class GeneticAlgorithm {
         return newPopulation;
     }
 
+    //method crossover two-point
     public Population crossoverPopulationTwoPoint(Population population) {
         // Create new population
         Population newPopulation = new Population(population.size());
@@ -398,6 +321,7 @@ public class GeneticAlgorithm {
         // Loop over current population by fitness
         for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {
             Individual parent1 = population.getFittest(populationIndex);
+//            Individual parent1 = selectParentRank(population);
 
             // Apply crossover to this individual?
             if (this.crossoverRate > Math.random() && populationIndex >= this.elitismCount) {
@@ -405,7 +329,7 @@ public class GeneticAlgorithm {
                 Individual offspring = new Individual(parent1.getChromosomeLength());
 
                 // Find second parent
-                Individual parent2 = selectParentTournament(population);
+                Individual parent2 = selectParentRank(population);
 
                 // Loop over genome
                 if (0.5 > Math.random()) {
@@ -496,5 +420,4 @@ public class GeneticAlgorithm {
         // Return mutated population
         return newPopulation;
     }
-
 }

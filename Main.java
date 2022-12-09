@@ -17,14 +17,14 @@ public class Main {
         int populationSize = 1000;      //besar populasi
         double mutationRate = 0.001;    //probabilitas terjadi mutasi
         double crossoverRate = 0.8;     //probabilitas crossover berhasil
-        int elitismCount = 2;           //jumlah individu yang akan dipilih secara elitism
+        int elitismCount = 100;           //jumlah individu yang akan dipilih secara elitism
 
         Scanner sc = new Scanner(System.in);    //objek scanner
 //        int n = sc.nextInt();
         int n = 5;                              //besar papan (nxn)
         int chromosomeLength = n * n;           //panjang kromosom = besar papan
 
-        int buang = sc.nextInt();               //varibel untuk membuang 1 angka pertma dari input karena input kelebihan 1 angka yang tidak digunakan
+        int buang = sc.nextInt();               //varibel untuk membuang 1 angka pertma dari input karena input kelebihan 1 angka(dari web scrapping) yang tidak digunakan
 
         int maxFitness = 0;                     //variabel untuk menghitung  nilai fitness maximum yang bisa didapatkan
         int[][] board = new int[n][n];          //array 2d untuk menyimpan papan permainan (setiap cell diisi dengan angka, jika cell tersebut kosong maka diisi dengan -1)
