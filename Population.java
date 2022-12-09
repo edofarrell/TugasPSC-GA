@@ -14,7 +14,7 @@ import java.util.Comparator;
 public class Population {
 
     private Individual population[];        //array 1d untuk menyimpan semua individual di populasi
-    private double populationFitness = -1;  //variabel untuk menyimpan fitness populasi
+    private int populationFitness = -1;  //variabel untuk menyimpan fitness populasi
 
     //constructor yang menginisialisasi populasi
     public Population(int populationSize) {
@@ -35,7 +35,7 @@ public class Population {
     //method getter populasi
     public Individual[] getIndividuals() { return this.population; }
 
-    //method getter untuk mengembalikan individual terbaik di populasi
+    //method getter untuk mengembalikan individual terbaik ke-sekian di populasi
     public Individual getFittest(int offset) {
         //sort populasi berdasarkan fitness individual dari besar ke kecil
         Arrays.sort(this.population, new Comparator<Individual>() {     
@@ -50,14 +50,14 @@ public class Population {
             }
         });
 
-        return this.population[offset]; //return the individual dengan fitness terbaik
+        return this.population[offset]; //return individual dengan fitness terbaik ke-sekian
     }
 
     //method setter fitness population
-    public void setPopulationFitness(double fitness) { this.populationFitness = fitness; }
+    public void setPopulationFitness(int fitness) { this.populationFitness = fitness; }
 
     //method getter fitness population
-    public double getPopulationFitness() { return this.populationFitness; }
+    public int getPopulationFitness() { return this.populationFitness; }
 
     //method getter ukuran population
     public int size() { return this.population.length; }

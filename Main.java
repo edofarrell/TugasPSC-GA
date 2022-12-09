@@ -13,11 +13,11 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        int numOfGeneration = 2200;     //banyak generasi
+        int numOfGeneration = 2000;     //banyak generasi
         int populationSize = 1000;      //besar populasi
         double mutationRate = 0.001;    //probabilitas terjadi mutasi
         double crossoverRate = 0.8;     //probabilitas crossover berhasil
-        int elitismCount = 100;           //jumlah individu yang akan dipilih secara elitism
+        int elitismCount = 10;          //jumlah individu yang akan dipilih secara elitism
 
         Scanner sc = new Scanner(System.in);    //objek scanner
 //        int n = sc.nextInt();
@@ -46,7 +46,7 @@ public class Main {
         //loop selama syarat terminasi belum terpenuhi (jumlah generasi)
         while (ga.isTerminationConditionMet(generation) == false) {
             // print individual terbaik dari populasi
-            System.out.println("Best solution: " + population.getFittest(0).toString() + " " + population.getFittest(0).getFitness() + "/" + maxFitness);
+            System.out.println("Best solution: " + population.getFittest(0).toString() + ", Fitness: " + population.getFittest(0).getFitness() + "/" + maxFitness);
 
             population = ga.crossoverPopulationTwoPoint(population);    //crossover populasi
             population = ga.mutatePopulation(population);   //mutasi populasi

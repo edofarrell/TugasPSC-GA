@@ -22,7 +22,7 @@ public class Individual {
     */
     
     private int[] chromosome;       //chromosome dalam bentuk array 1d
-    private double fitness = -1;    //fitness individual
+    private int fitness = -1;    //fitness individual
 
     //constructor dengan input chromosome yang sudah jadi
     public Individual(int[] chromosome) {
@@ -54,10 +54,10 @@ public class Individual {
     public int getGene(int offset) { return this.chromosome[offset]; }
 
     //method setter fitness individual
-    public void setFitness(double fitness) { this.fitness = fitness; }
+    public void setFitness(int fitness) { this.fitness = fitness; }
 
     //method getter fitness individual
-    public double getFitness() { return this.fitness; }
+    public int getFitness() { return this.fitness; }
 
     //method untuk mengubah indivual menjadi bentuk string
     @Override
