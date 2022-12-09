@@ -3,12 +3,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 /**
- * 
+ *
  * @author 
  *  Kelompok 15: 
- *      Keannen Renaldo Halim - 6182001007 
- *      Neil Christopher - 6182001010 
- *      Edo Farrell Haryanto - 6182001025
+ *      Keannen Renaldo Halim   - 6182001007
+ *      Neil Christopher        - 6182001010 
+ *      Edo Farrell Haryanto    - 6182001025
  */
 
 public class GeneticAlgorithm {
@@ -24,13 +24,13 @@ public class GeneticAlgorithm {
 
     //constructor
     public GeneticAlgorithm(int[][] board, int numOfGeneration, int populationSize, double mutationRate, double crossoverRate, int elitismCount) {
-        this.n = board.length;
-        this.board = board;
-        this.numOfGeneration = numOfGeneration;
-        this.populationSize = populationSize;
-        this.mutationRate = mutationRate;
-        this.crossoverRate = crossoverRate;
-        this.elitismCount = elitismCount;
+        this.n = board.length;                  //panjang papan permainan
+        this.board = board;                     //papan permainan
+        this.numOfGeneration = numOfGeneration; //banyak generasi
+        this.populationSize = populationSize;   //besar populasi
+        this.mutationRate = mutationRate;       //probabilitas terjadi mutasi
+        this.crossoverRate = crossoverRate;     //probabilitas crossover berhasil
+        this.elitismCount = elitismCount;       //jumlah individu yang akan dipilih secara elitism
     }
 
     //method untuk inisialisasi populasi

@@ -5,9 +5,9 @@ import java.util.Scanner;
  *
  * @author 
  *  Kelompok 15: 
- *      Keannen Renaldo Halim - 6182001007 
- *      Neil Christopher - 6182001010 
- *      Edo Farrell Haryanto - 6182001025
+ *      Keannen Renaldo Halim   - 6182001007 
+ *      Neil Christopher        - 6182001010 
+ *      Edo Farrell Haryanto    - 6182001025
  */
 
 public class Main {
