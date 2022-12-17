@@ -21,7 +21,7 @@ public class Individual {
         1 menandakan kotak yang bersangkutan diisi.
     */
     
-    private int[] chromosome;       //chromosome dalam bentuk array 1d
+    private int[] chromosome;    //chromosome dalam bentuk array 1d
     private int fitness = -1;    //fitness individual
 
     //constructor dengan input chromosome yang sudah jadi

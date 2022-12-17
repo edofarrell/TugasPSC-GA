@@ -13,7 +13,7 @@ import java.util.Comparator;
 
 public class Population {
 
-    private Individual population[];        //array 1d untuk menyimpan semua individual di populasi
+    private Individual population[];     //array 1d untuk menyimpan semua individual di populasi
     private int populationFitness = -1;  //variabel untuk menyimpan fitness populasi
 
     //constructor yang menginisialisasi populasi

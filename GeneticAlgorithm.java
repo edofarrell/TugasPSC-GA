@@ -78,15 +78,15 @@ public class GeneticAlgorithm {
     //method untuk menghitung banyak kotak yang diisi di sekeliling satu kotak
     private int countNeighbour(int i, int j, Individual individual) {
         int[][] move = { //arah pengecekan kotak
-            {-1, -1}, //kiri atas
-            {-1, 0}, //atas
-            {-1, 1}, //kanan atas
-            {0, -1}, //kiri
-            {0, 0}, //kotaknya sendiri
-            {0, 1}, //kanan
-            {1, -1}, //kiri bawah
-            {1, 0}, //bawah
-            {1, 1} //kanan bawah
+            {-1, -1},   //kiri atas
+            {-1, 0},    //atas
+            {-1, 1},    //kanan atas
+            {0, -1},    //kiri
+            {0, 0},     //kotaknya sendiri
+            {0, 1},     //kanan
+            {1, -1},    //kiri bawah
+            {1, 0},     //bawah
+            {1, 1}      //kanan bawah
         };
 
         int count = 0;      //variabel untuk menghitung jumlah kotak yang diisi
