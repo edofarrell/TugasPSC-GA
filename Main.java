@@ -1,9 +1,10 @@
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-
+import java.io.FileReader;
 import com.opencsv.CSVWriter;
 
 /**
@@ -111,13 +112,15 @@ public class Main {
         //buat file untuk menyimpan hasil eksperimen
         File file = new File(filePath);
         try {
-            FileWriter outputfile = new FileWriter(file, true); //object filewriter untuk menulis ke file output
+            
+            FileWriter outputfile = new FileWriter(file,true); //object filewriter untuk menulis ke file output
 
             CSVWriter writer = new CSVWriter(outputfile);       //object csvwriter untuk menulis ke file output dalam format csv
 
             //penambahan header pada csv
             System.out.println("write");
-            if(!file.exists()){
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            if (br.readLine() == null) {
                 String[] header = { 
                     "Population Size",
                     "Mutation Rate", 
