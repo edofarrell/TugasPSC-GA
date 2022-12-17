@@ -25,7 +25,7 @@ public class Main {
         double crossoverRate = 0.8;     // probabilitas crossover berhasil
         int elitismCount = 10;          // jumlah individu yang akan dipilih secara elitism
 
-        File folder = new File("../selenium.test\\ case");
+        File folder = new File("./selenium/"+"test case"+"/");
         File[] input = folder.listFiles();
 
         for (int in = 0; in < input.length; in++) {
