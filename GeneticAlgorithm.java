@@ -10,6 +10,13 @@ import java.util.Comparator;
  *      Neil Christopher        - 6182001010 
  *      Edo Farrell Haryanto    - 6182001025
  */
+/*
+    Referensi algoritma genetik:
+    https://github.com/Apress/genetic-algorithms-in-java-basics/tree/master/GA%20in%20Java/src/chapter2
+
+    Referensi untuk web scraping test case:
+    https://gist.github.com/korakot/5c8e21a5af63966d80a676af0ce15067
+*/
 
 public class GeneticAlgorithm {
 
